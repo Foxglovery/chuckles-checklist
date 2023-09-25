@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react"
+import "./App.css"
+import { getAllJokes } from "./services/jokeService"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+export const App = () => {
+  //returns state value of jokes
+  const [allJokes, setAllJokes] = useState([]) 
+  //returns input field value
+  const [userInput, setUserInput] = useState("")
+  
+
+  // shows all jokes in state
+  useEffect(() => {
+      getAllJokes().then(jokeArray => {
+        //populates the state with all jokes array
+        setAllJokes(jokeArray)
+        console.log(`jokes caught`)
+      })
+    }, [])
+  return <>
+    <div className="app-container">
+      <div className="app-heading">
+        <h1 className="app-heading-text">Chuckle's Lame-Ass Jokes</h1>
+      </div>
+      <h2>Add Joke</h2>
+      <div className="joke-add-form">
+      <input
+        className=""
+        type="text"
+        placeholder="New One Liner"
+        onChange={(event) => {
+          //updates input hook with input value
+          setUserInput(event.target.value) 
+        }}
+      />
+      </div>
     </div>
-  );
+  </>
 }
 
-export default App;
+
+//left off needing to add post options for jokeService to save userInput value to database
