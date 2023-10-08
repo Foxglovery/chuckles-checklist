@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import "./App.css"
 import { getAllJokes, createJoke, toggleToUntold, deleteJoke } from "./services/jokeService"
 import stevePic from "./assets/steve.png"
+import { Joke } from "./components/Joke"
 
 
 export const App = () => {
@@ -54,6 +55,8 @@ export const App = () => {
         </div>
         <h1 className="app-heading-text">Chuckle's Heckin' Lame Jokes</h1>
       </div>
+
+
       <h2>Add Joke</h2>
       <div className="joke-add-form">
         <input
@@ -80,58 +83,30 @@ export const App = () => {
           }}>Add Joke</button>
         </div>
       </div>
+
+
       <div className="joke-lists-container">
+        {/* container for told jokes */}
         <div className="joke-list-container">
           <h2><i className="fa-regular fa-face-grin-tears"></i>Told Jokes<span className="told-count">{toldJokes.length}</span></h2>
           {toldJokes.map(joke => {
-            return (
-              <li className="joke-list-item" key={joke.id}>
-                <p className="joke-list-item-text">{joke.text}</p>
-                <div className="joke-list-action-delete">
-              <button onClick={() =>
-              deleteJoke(joke.id)
-              .then(() => {
-                jokeFetch()
-              })
-              }><i class="fa-solid fa-dumpster-fire fa-lg"></i></button>
-            </div>
-                <div className="joke-list-action-toggle">
-                  <button onClick={() =>
-                    toggleToUntold(joke.id, joke.text, joke.told)
-                      //HAD TO USE .THEN OR ELSE IT WOULD NOT REFETCH
-                      .then(() => {
+            return (<Joke
+            key={joke.id}
+            joke={joke}
+            />)
 
-                        jokeFetch()
-                      })
-                  }><i class="fa-solid fa-person-harassing fa-lg"></i></button>
-                </div>
-              </li>)
+
           })}
         </div>
+        {/* container for Untold Jokes */}
         <div className="joke-list-container">
           <h2><i className="fa-regular fa-face-flushed"></i>Untold Jokes<span className="untold-count">{untoldJokes.length}</span></h2>
           {untoldJokes.map(joke => {
-            return (
-            <li className="joke-list-item" key={joke.id}>
-              <p className="joke-list-item-text">{joke.text}</p>
-            <div className="joke-list-action-delete">
-              <button onClick={() =>
-              deleteJoke(joke.id)
-              .then(() => {
-                jokeFetch()
-              })
-              }><i class="fa-solid fa-dumpster-fire fa-lg"></i></button>
-            </div>
-              <div className="joke-list-action-toggle">
-                <button onClick={() =>
-                  toggleToUntold(joke.id, joke.text, joke.told)
-                    //HAD TO USE .THEN with arrow OR ELSE IT WOULD NOT REFETCH
-                    .then(() => {
-
-                      jokeFetch()
-                    })
-                }><i class="fa-solid fa-person-harassing fa-lg"></i></button>
-              </div></li>)
+            return (<Joke
+                key={joke.id}
+                joke={joke}
+              />
+            )
           })}
         </div>
       </div>

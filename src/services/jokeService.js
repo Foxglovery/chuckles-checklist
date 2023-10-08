@@ -2,6 +2,19 @@ export const getAllJokes = () => {
     return fetch("http://localhost:8088/jokes").then((res) => res.json())
 }
 
+export const getToldJokes = () => {
+    return fetch("http://localhost:8088/jokes?told=true").then((res) => res.json())
+}
+
+export const getUntoldJokes = () => {
+    return fetch("http://localhost:8088/jokes?told=false").then((res) => res.json())
+}
+
+export const jokeFetch = () => {
+    getAllJokes().then((jokeArr) => {
+      setAllJokes(jokeArr)
+    })
+  }
 
 export const createJoke = async (jokeText) => {
 
